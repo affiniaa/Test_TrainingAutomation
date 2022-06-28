@@ -6,6 +6,7 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
+import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -14,7 +15,7 @@ import static io.restassured.RestAssured.given;
 
 public class UpdateUserTest extends BaseTest {
     @Test
-    public void SuccessUpdate() {
+    public void SuccessUpdate(ITestContext context) {
         RequestSpecification request = given();
 
         JSONObject bodyrequest = new JSONObject();
@@ -24,7 +25,7 @@ public class UpdateUserTest extends BaseTest {
         request.header("Content-type", "Application/json");
         request.body(bodyrequest.toString());
 
-        Response response = request.put("/api/users/2");
+        Response response = request.put("/api/users/2"+context.getAttribute("id_user"));
 
         response.then().assertThat()
                 .statusCode(200)
